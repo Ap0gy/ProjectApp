@@ -61,7 +61,7 @@ namespace TodoApi.Controllers
 
             todoItem.Name = todoItemDTO.Name;
             todoItem.IsComplete = todoItemDTO.IsComplete;
-            todoItem.TargetDate = todoItemDTO.TargetDate;
+            todoItem.Date = todoItemDTO.Date;
 
             try
             {
@@ -83,7 +83,7 @@ namespace TodoApi.Controllers
             {
                 IsComplete = todoItemDTO.IsComplete,
                 Name = todoItemDTO.Name,
-                TargetDate = todoItemDTO.TargetDate
+                Date = todoItemDTO.Date
             };
 
             _context.TodoItems.Add(todoItem);
@@ -123,7 +123,7 @@ namespace TodoApi.Controllers
                 Id = todoItem.Id,
                 Name = todoItem.Name,
                 IsComplete = todoItem.IsComplete,
-                TargetDate = todoItem.TargetDate
+                Date = todoItem.Date
             };
     }
 }

@@ -16,7 +16,7 @@ function addItem() {
     const item = {
         isComplete: false,
         name: addNameTextbox.value.trim(),
-        date: addDateTextbox.value.trim()
+        date: addDateTextbox.value.trim(),
     };
 
     fetch(uri, {
@@ -47,8 +47,8 @@ function deleteItem(id) {
 function displayEditForm(id) {
     const item = todos.find(item => item.id === id);
 
-    document.getElementById('edit-name').value = item.name;
     document.getElementById('edit-date').value = item.date;
+    document.getElementById('edit-name').value = item.name;
     document.getElementById('edit-id').value = item.id;
     document.getElementById('edit-isComplete').checked = item.isComplete;
     document.getElementById('editForm').style.display = 'block';
@@ -121,10 +121,16 @@ function _displayItems(data) {
         td2.appendChild(textNode);
 
         let td3 = tr.insertCell(2);
-        td3.appendChild(editButton);
+        let dateNode = document.createTextNode(item.date);
+        td3.appendChild(dateNode);
 
         let td4 = tr.insertCell(3);
-        td4.appendChild(deleteButton);
+        td4.appendChild(editButton);
+
+        let td5 = tr.insertCell(4);
+        td5.appendChild(deleteButton);
+
+
     });
 
     todos = data;
