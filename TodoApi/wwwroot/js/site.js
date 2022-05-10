@@ -11,9 +11,12 @@ function getItems() {
 function addItem() {
     const addNameTextbox = document.getElementById('add-name');
 
+    const addDateTextbox = document.getElementById('add-date');
+
     const item = {
         isComplete: false,
-        name: addNameTextbox.value.trim()
+        name: addNameTextbox.value.trim(),
+        date: addDateTextbox.value.trim()
     };
 
     fetch(uri, {
@@ -28,6 +31,7 @@ function addItem() {
         .then(() => {
             getItems();
             addNameTextbox.value = '';
+            addDateTextbox.value = '';
         })
         .catch(error => console.error('Unable to add item.', error));
 }
@@ -44,6 +48,7 @@ function displayEditForm(id) {
     const item = todos.find(item => item.id === id);
 
     document.getElementById('edit-name').value = item.name;
+    document.getElementById('edit-date').value = item.date;
     document.getElementById('edit-id').value = item.id;
     document.getElementById('edit-isComplete').checked = item.isComplete;
     document.getElementById('editForm').style.display = 'block';
@@ -54,7 +59,8 @@ function updateItem() {
     const item = {
         id: parseInt(itemId, 10),
         isComplete: document.getElementById('edit-isComplete').checked,
-        name: document.getElementById('edit-name').value.trim()
+        name: document.getElementById('edit-name').value.trim(),
+        date: document.getElementById('edit-date').value.trim()
     };
 
     fetch(`${uri}/${itemId}`, {
