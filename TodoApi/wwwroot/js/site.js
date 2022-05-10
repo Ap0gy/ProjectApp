@@ -27,7 +27,12 @@ function addItem() {
         },
         body: JSON.stringify(item)
     })
-        .then(response => response.json())
+        .then(response => {
+            if (response.status != 201) {
+                alert(`Failed to add new item: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(() => {
             getItems();
             addNameTextbox.value = '';
