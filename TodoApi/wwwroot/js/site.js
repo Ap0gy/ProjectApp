@@ -10,10 +10,12 @@ function getItems() {
 
 function addItem() {
     const addNameTextbox = document.getElementById('add-name');
+    const addTargetTextbox = document.getElementById('add-target');
 
     const item = {
         isComplete: false,
-        name: addNameTextbox.value.trim()
+        name: addNameTextbox.value.trim(),
+        target: addTargetTextbox.value.trim()
     };
 
     fetch(uri, {
@@ -24,10 +26,16 @@ function addItem() {
         },
         body: JSON.stringify(item)
     })
+        .then(response => {
+            if (response.status != 201) {
+                console.error(`Failed to add new item: ${response.status}`);
+            }
+        })
         .then(response => response.json())
         .then(() => {
             getItems();
             addNameTextbox.value = '';
+            addTargetTextbox.value = '';
         })
         .catch(error => console.error('Unable to add item.', error));
 }
@@ -44,6 +52,7 @@ function displayEditForm(id) {
     const item = todos.find(item => item.id === id);
 
     document.getElementById('edit-name').value = item.name;
+    document.getElementById('edit-target').value = item.target;
     document.getElementById('edit-id').value = item.id;
     document.getElementById('edit-isComplete').checked = item.isComplete;
     document.getElementById('editForm').style.display = 'block';
@@ -54,7 +63,8 @@ function updateItem() {
     const item = {
         id: parseInt(itemId, 10),
         isComplete: document.getElementById('edit-isComplete').checked,
-        name: document.getElementById('edit-name').value.trim()
+        name: document.getElementById('edit-name').value.trim(),
+        target: document.getElementById('edit-target').value.trim()
     };
 
     fetch(`${uri}/${itemId}`, {
@@ -90,7 +100,6 @@ function _displayItems(data) {
     _displayCount(data.length);
 
     const button = document.createElement('button');
-
     data.forEach(item => {
         let isCompleteCheckbox = document.createElement('input');
         isCompleteCheckbox.type = 'checkbox';
@@ -115,10 +124,14 @@ function _displayItems(data) {
         td2.appendChild(textNode);
 
         let td3 = tr.insertCell(2);
-        td3.appendChild(editButton);
+        let targetNode = document.createTextNode(item.target);
+        td3.appendChild(targetNode);
 
         let td4 = tr.insertCell(3);
-        td4.appendChild(deleteButton);
+        td4.appendChild(editButton);
+
+        let td5 = tr.insertCell(4);
+        td5.appendChild(deleteButton);
     });
 
     todos = data;
