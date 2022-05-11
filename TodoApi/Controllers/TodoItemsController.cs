@@ -32,7 +32,7 @@ namespace TodoApi.Controllers
 
         // GET: api/TodoItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TodoItemDTO>> GetTodoItem(long id)
+        public async Task<ActionResult<TodoItemDTO>> GetTodoItem(Guid id)
         {
             var todoItem = await _context.TodoItems.FindAsync(id);
 
@@ -46,7 +46,7 @@ namespace TodoApi.Controllers
         // PUT: api/TodoItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTodoItem(long id, TodoItemDTO todoItemDTO)
+        public async Task<IActionResult> UpdateTodoItem(Guid id, TodoItemDTO todoItemDTO)
         {
             if (id != todoItemDTO.Id)
             {
@@ -59,9 +59,10 @@ namespace TodoApi.Controllers
                 return NotFound();
             }
 
-            todoItem.Name = todoItemDTO.Name;
             todoItem.IsComplete = todoItemDTO.IsComplete;
-            todoItem.Date = todoItemDTO.Date;
+            todoItem.Name = todoItemDTO.Name;
+            todoItem.Description = todoItemDTO.Description;
+            todoItem.TargetDate = todoItemDTO.TargetDate;
 
             try
             {
@@ -83,8 +84,9 @@ namespace TodoApi.Controllers
             {
                 IsComplete = todoItemDTO.IsComplete,
                 Name = todoItemDTO.Name,
-                Date = todoItemDTO.Date
-            };
+                Description = todoItemDTO.Description,
+                TargetDate = todoItemDTO.TargetDate
+        };
 
             _context.TodoItems.Add(todoItem);
             await _context.SaveChangesAsync();
@@ -97,7 +99,7 @@ namespace TodoApi.Controllers
 
         // DELETE: api/TodoItems/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTodoItem(long id)
+        public async Task<IActionResult> DeleteTodoItem(Guid id)
         {
             var todoItem = await _context.TodoItems.FindAsync(id);
 
@@ -112,7 +114,7 @@ namespace TodoApi.Controllers
             return NoContent();
         }
 
-        private bool TodoItemExists(long id)
+        private bool TodoItemExists(Guid id)
         {
             return _context.TodoItems.Any(e => e.Id == id);
         }
@@ -122,8 +124,9 @@ namespace TodoApi.Controllers
             {
                 Id = todoItem.Id,
                 Name = todoItem.Name,
+                Description = todoItem.Description,
                 IsComplete = todoItem.IsComplete,
-                Date = todoItem.Date
+                TargetDate = todoItem.TargetDate
             };
     }
 }
