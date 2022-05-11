@@ -10,7 +10,8 @@
     <h3>Add</h3>
     <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
         <input type="text" id="add-name" placeholder="New to-do">
-        <input type="datetime" id="add-date" placeholder="Target date (YYYY-MM-DD)">
+        <input type="text" id="add-description" placeholder="Description">
+        <input type="datetime" id="add-targetDate" placeholder="Target date (YYYY-MM-DD)">
         <input type="submit" value="Add">
     </form>
 
@@ -23,7 +24,8 @@
             <input type="hidden" id="edit-id">
             <input type="checkbox" id="edit-isComplete">
             <input type="text" id="edit-name">
-            <input type="datetime" id="edit-date">
+            <input type="text" id="edit-description">
+            <input type="datetime" id="edit-targetDate">
             <input type="submit" value="Save">
             <a onclick="closeInput()" aria-label="Close">&#10006;</a>
         </form>
@@ -35,6 +37,7 @@
         <tr>
             <th>Is Complete?</th>
             <th>Name</th>
+            <th>Description</th>
             <th>Target Date</th>
             <th></th>
             <th></th>

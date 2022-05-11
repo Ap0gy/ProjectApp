@@ -11,12 +11,15 @@ function getItems() {
 function addItem() {
     const addNameTextbox = document.getElementById('add-name');
 
-    const addDateTextbox = document.getElementById('add-date');
+    const addDescriptionTextbox = document.getElementById('add-description');
+
+    const addDateTextbox = document.getElementById('add-targetDate');
 
     const item = {
         isComplete: false,
         name: addNameTextbox.value.trim(),
-        date: addDateTextbox.value.trim(),
+        description: addDescriptionTextbox.value.trim(),
+        targetdate: addDateTextbox.value.trim()
     };
 
     fetch(uri, {
@@ -36,6 +39,7 @@ function addItem() {
         .then(() => {
             getItems();
             addNameTextbox.value = '';
+            addDescriptionTextbox.value = '';
             addDateTextbox.value = '';
         })
         .catch(error => console.error('Unable to add item.', error));
@@ -52,7 +56,8 @@ function deleteItem(id) {
 function displayEditForm(id) {
     const item = todos.find(item => item.id === id);
 
-    document.getElementById('edit-date').value = item.date;
+    document.getElementById('edit-targetDate').value = item.targetDate;
+    document.getElementById('edit-description').value = item.description;
     document.getElementById('edit-name').value = item.name;
     document.getElementById('edit-id').value = item.id;
     document.getElementById('edit-isComplete').checked = item.isComplete;
@@ -62,10 +67,11 @@ function displayEditForm(id) {
 function updateItem() {
     const itemId = document.getElementById('edit-id').value;
     const item = {
-        id: parseInt(itemId, 10),
+        id: itemId,
         isComplete: document.getElementById('edit-isComplete').checked,
         name: document.getElementById('edit-name').value.trim(),
-        date: document.getElementById('edit-date').value.trim()
+        description: document.getElementById('edit-description').value.trim(),
+        targetDate: document.getElementById('edit-targetDate').value.trim()
     };
 
     fetch(`${uri}/${itemId}`, {
@@ -110,11 +116,15 @@ function _displayItems(data) {
 
         let editButton = button.cloneNode(false);
         editButton.innerText = 'Edit';
-        editButton.setAttribute('onclick', `displayEditForm(${item.id})`);
+        editButton.addEventListener("click", e => {
+            displayEditForm(item.id);
+        });
 
         let deleteButton = button.cloneNode(false);
         deleteButton.innerText = 'Delete';
-        deleteButton.setAttribute('onclick', `deleteItem(${item.id})`);
+        deleteButton.addEventListener("click", e => {
+            deleteItem(item.id);
+        });
 
         let tr = tBody.insertRow();
 
@@ -126,14 +136,18 @@ function _displayItems(data) {
         td2.appendChild(textNode);
 
         let td3 = tr.insertCell(2);
-        let dateNode = document.createTextNode(item.date);
-        td3.appendChild(dateNode);
+        let descriptionNode = document.createTextNode(item.description);
+        td3.appendChild(descriptionNode);
 
         let td4 = tr.insertCell(3);
-        td4.appendChild(editButton);
+        let targetDateNode = document.createTextNode(item.targetDate);
+        td4.appendChild(targetDateNode);
 
         let td5 = tr.insertCell(4);
-        td5.appendChild(deleteButton);
+        td5.appendChild(editButton);
+
+        let td6 = tr.insertCell(5);
+        td6.appendChild(deleteButton);
 
 
     });
