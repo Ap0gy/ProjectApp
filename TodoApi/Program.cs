@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<ProjectAppDb>(builder.Configuration.GetSection("ProjectAppDb"));
-builder.Services.AddSingleton<MongoToDoRepository>();
+builder.Services.AddSingleton<IToDoRepository, MongoToDoRepository>();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<TodoContext>(opt =>
     opt.UseInMemoryDatabase("TodoList"));
