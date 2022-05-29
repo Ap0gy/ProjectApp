@@ -5,11 +5,11 @@ using TodoApi.Models.Configuration;
 
 namespace TodoApi.Repositories
 {
-    public class ToDoRepository
+    public class MongoToDoRepository : IToDoRepository
     {
         private readonly IMongoCollection<ToDoItem> _toDosCollection;
 
-        public ToDoRepository(IOptions<ProjectAppDb> databaseConnectionOptions)
+        public MongoToDoRepository(IOptions<ProjectAppDb> databaseConnectionOptions)
         {
             var databaseConnectionSettings = databaseConnectionOptions.Value;
             // https://stackoverflow.com/questions/57690523/is-it-safe-to-create-multiple-instances-of-mongoclient-by-using-the-same-connect

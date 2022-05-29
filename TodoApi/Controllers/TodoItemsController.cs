@@ -16,9 +16,9 @@ namespace TodoApi.Controllers
     public class TodoItemsController : ControllerBase
     {
         private readonly TodoContext _context;
-        private readonly ToDoRepository _repository;
+        private readonly IToDoRepository _repository;
 
-        public TodoItemsController(TodoContext context, ToDoRepository repository)
+        public TodoItemsController(TodoContext context, IToDoRepository repository)
         {
             _context = context;
             this._repository = repository;
